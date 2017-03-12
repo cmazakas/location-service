@@ -1,15 +1,16 @@
 #ifndef COORD_HPP_
 #define COORD_HPP_
 
-#include <boost/serialization/strong_typedef.hpp>
+#include <boost/geometry/geometries/point.hpp> 
+#include <boost/geometry/core/cs.hpp> 
 
-BOOST_STRONG_TYPEDEF(float, longitude_t)
-BOOST_STRONG_TYPEDEF(float, latitude_t)
+size_t const static DimensionCount = 2;
 
-struct coord_t
-{
-	longitude_t longitude;
-	latitude_t  latitude;
-};
+using coordinate_type   = double;
+using CoordinateSystem = boost::geometry::cs::geographic<boost::geometry::degree>;
+
+using point_t = boost::geometry::model::point<
+  coordinate_type, DimensionCount, CoordinateSystem
+>;
 
 #endif // COORD_HPP_

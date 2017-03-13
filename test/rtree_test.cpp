@@ -3,7 +3,10 @@
 #include "coord.hpp"
 #include "coord_tree.hpp"
 
+#include <vector>
 #include <random>
+#include <iterator>
+
 #include <boost/geometry.hpp>
 
 TEST_CASE("The Boost rtree")
@@ -36,8 +39,15 @@ TEST_CASE("The Boost rtree")
 
     using boost::geometry::get;
 
-    for (auto const& node : tree) {
-      std::cout << get<0>(node) << ", " << get<1>(node) << "\n";
+    std::vector<point_t> pts;
+    
+    auto const pt = *tree.begin();
+
+    tree.query(boost::geometry::index::nearest(pt, 10), std::back_inserter(pts));
+
+    std::cout << "Nearest 10 neighbors to: " << get<0>(pt) << ", " << get<1>(pt) << "\n\n";
+    for (auto const& point : pts) {
+      std::cout << get<0>(point) << ", " << get<1>(point) << "\n";
     }
 	}
 }

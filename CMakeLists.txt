@@ -31,6 +31,7 @@ if (${CMAKE_BUILD_TYPE_INIT} STREQUAL "Debug")
 		./debug/main.cpp
 
 		./test/rtree_test.cpp
+		./test/geographic_test.cpp
 	)
 
 elseif (${CMAKE_BUILD_TYPE_INIT} STREQUAL "Release")

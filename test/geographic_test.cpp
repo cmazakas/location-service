@@ -47,9 +47,5 @@ TEST_CASE("The Boost geographic points")
       std::back_inserter(points));
 
     REQUIRE(points.size() == 1);
-
-    for (auto const& point : points) {
-      std::cout << bg::get<0>(point) << ", " << bg::get<1>(point) << "\n";
-    }
   }
 }

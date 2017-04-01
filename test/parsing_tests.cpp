@@ -1,10 +1,13 @@
 #include <catch.hpp>
 
+#include <iostream>
+
 #include <boost/spirit/include/qi.hpp>
 #include <boost/spirit/include/phoenix.hpp>
 #include <boost/fusion/adapted.hpp>
 
-namespace qi = boost::spirit::qi;
+namespace spirit = boost::spirit;
+namespace qi     = spirit::qi;
 
 template <typename Iterator>
 struct test_parser : qi::grammar<Iterator, std::string(), qi::space_type, qi::locals<char> >
@@ -50,4 +53,46 @@ TEST_CASE("StackOverflow Tests")
     if (iter != end)
       std::cout << "Remaining: " << std::string(iter, end) << "\n";
   }
+}
+
+
+using space_type = spirit::ascii::space_type;
+
+template <typename Iterator>
+struct key_value_list : qi::grammar<Iterator, space_type>
+{
+  using rule_type = qi::rule<Iterator, space_type>;
+
+  rule_type start;
+  rule_type item;
+  rule_type key;
+  rule_type value;
+
+  key_value_list(void) : key_value_list::base_type(start)
+  {
+    start = *item;
+    item = key >> ':' >> value;
+    key = qi::alpha >> *qi::alnum;
+    value = ('"' >> *(~qi::char_('"')) >> '"') | *qi::alnum;
+  }
+};
+
+TEST_CASE("Sample CSV Testing")
+{
+  std::string input{
+    "foo : bar"
+    "gorp : smart"
+    "falcou : \"crazy frenchman\""
+    "arm8 : risc"
+  };
+
+  auto begin = input.begin();
+  auto end   = input.end();
+
+  auto const valid_str = boost::spirit::qi::phrase_parse(
+    begin, end, 
+    key_value_list<decltype(begin)>{}, 
+    boost::spirit::ascii::space_type{});
+
+  REQUIRE(valid_str == true);
 }

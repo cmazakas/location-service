@@ -42,7 +42,9 @@ set(
 
 	./include/coord.hpp
 	./include/coord_tree.hpp
-	./include/csv_parser.hpp
+	
+	./include/csv_grammar.hpp
+	./include/csv_rule_t.hpp
 	)
 
 #add_library(locservice ${SOURCES})
@@ -59,6 +61,7 @@ add_executable(
 	./test/rtree_test.cpp
 	./test/geographic_test.cpp
 	./test/parsing_tests.cpp
+	./test/csv_row_t_tests.cpp
 	)
 
 install(

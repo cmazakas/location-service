@@ -25,6 +25,8 @@ TEST_CASE("Parsing tests")
       "falcou : \"crazy frenchman\""
     };
 
+
+
     using iter_t       = decltype(input.begin());
     using space_rule_t = qi::rule<iter_t, std::string(), qi::space_type>;
     using kvp_rule_t   = qi::rule<iter_t, std::pair<std::string, std::string>(), qi::space_type>;

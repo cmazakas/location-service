@@ -32,7 +32,9 @@ include_directories(${CATCH_INCLUDE_DIR})
 
 
 include_directories(
-	./include	
+	./include
+
+    ${Boost_INCLUDE_DIR}
 )
 
 # create common library of source files to
@@ -44,24 +46,27 @@ set(
 	./include/coord_tree.hpp
 	
 	./include/csv_grammar.hpp
-	./include/csv_rule_t.hpp
+	./include/csv_row_t.hpp
 	)
 
 #add_library(locservice ${SOURCES})
 
 # generate release binary
-add_executable(location_service ./release/main.cpp)
+add_executable(location_service ./release/main.cpp ${SOURCES})
 
 # generate testing binary
 add_executable(
 	location_service_tests 
 	
+    ${SOURCES}
+
 	./debug/main.cpp
 
 	./test/rtree_test.cpp
 	./test/geographic_test.cpp
 	./test/parsing_tests.cpp
 	./test/csv_row_t_tests.cpp
+    ./test/csv_grammar_tests.cpp
 	)
 
 install(

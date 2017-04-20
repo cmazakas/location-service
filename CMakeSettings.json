@@ -22,7 +22,7 @@
         "generator": "Visual Studio 15 2017 Win64",
         "configurationType": "Debug",
         "buildRoot": "${env.LOCALAPPDATA}\\CMakeBuild\\${workspaceHash}\\build\\${name}",
-        "cmakeCommandArgs": "-DCMAKE_TOOLCHAIN_FILE=C:\\vcpkg\\scripts\\buildsystems\\vcpkg.cmake",
+        "cmakeCommandArgs": "-DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake",
         "buildCommandArgs": "-m -v:minimal"
       },
       {
@@ -30,7 +30,7 @@
         "generator": "Visual Studio 15 2017 Win64",
         "configurationType": "Release",
         "buildRoot": "${env.LOCALAPPDATA}\\CMakeBuild\\${workspaceHash}\\build\\${name}",
-        "cmakeCommandArgs": "-DCMAKE_TOOLCHAIN_FILE=C:\\vcpkg\\scripts\\buildsystems\\vcpkg.cmake",
+        "cmakeCommandArgs": "-DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake",
         "buildCommandArgs": "-m -v:minimal"
       }
     ]

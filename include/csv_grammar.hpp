@@ -18,8 +18,8 @@ struct csv_grammar_t : qi::grammar<Iterator, result_t(), qi::space_type>
   using iter_t = Iterator;
 
   using string_rule_t = qi::rule<iter_t, std::string(), qi::space_type>; 
-  using dbl_rule_t    = qi::rule<iter_t, double(), qi::space_type>;
-  using int_rule_t    = qi::rule<iter_t, int(), qi::space_type>;
+  using dbl_rule_t    = qi::rule<iter_t, double(),      qi::space_type>;
+  using int_rule_t    = qi::rule<iter_t, int(),         qi::space_type>;
 
   rule_t<Iterator> start;
 

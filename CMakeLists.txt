@@ -37,36 +37,44 @@ include_directories(
     ${Boost_INCLUDE_DIR}
 )
 
+set(
+    HEADERS
+
+    ./include/coord.hpp
+    ./include/coord_tree.hpp
+
+    ./include/csv_grammar.hpp
+    ./include/csv_row_t.hpp
+    ./include/csv_parser.hpp
+)
+
 # create common library of source files to
 # link against
 set(
-	SOURCES 
+    SOURCES 
 
-	./include/coord.hpp
-	./include/coord_tree.hpp
-	
-	./include/csv_grammar.hpp
-	./include/csv_row_t.hpp
-	)
+    ./src/csv_parser.cpp
+    )
 
-#add_library(locservice ${SOURCES})
+add_library(locservice STATIC ${SOURCES})
+
+link_libraries(locservice)
 
 # generate release binary
-add_executable(location_service ./release/main.cpp ${SOURCES})
+add_executable(location_service ./release/main.cpp ${HEADERS})
 
 # generate testing binary
 add_executable(
 	location_service_tests 
 	
-    ${SOURCES}
+    ${HEADERS}
 
 	./debug/main.cpp
 
 	./test/rtree_test.cpp
 	./test/geographic_test.cpp
-	./test/parsing_tests.cpp
-	./test/csv_row_t_tests.cpp
     ./test/csv_grammar_tests.cpp
+    ./test/csv_parser_tests.cpp
 	)
 
 install(

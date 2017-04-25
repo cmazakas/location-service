@@ -10,7 +10,7 @@ namespace qi = boost::spirit::qi;
 TEST_CASE("The csv parsing grammar")
 {
   using iter_t = boost::spirit::istream_iterator;
-
+  
   std::ifstream ifs{"C:\\Users\\christian\\clc\\location-service\\zip_data\\zipcode.csv"};
   ifs >> std::noskipws;
 
@@ -20,7 +20,8 @@ TEST_CASE("The csv parsing grammar")
   auto end   = iter_t{};
 
   csv_grammar_t<iter_t> csv_grammar;
-  std::vector<csv_row_t> output;
+
+  csv_rows_t output;
 
   qi::phrase_parse(
     begin, end,
@@ -28,11 +29,9 @@ TEST_CASE("The csv parsing grammar")
     qi::space,
     output);
 
-  REQUIRE(output.size() > 0);
-
-  for (auto const& csv_row : output) {
-    std::cout << csv_row.city << '\n';
-  }
-
-
+  // current number of usable rows in the CSV file
+  // brittle test but it does ensure correctness when
+  // refactoring and it's not likely the CSV will change
+  // for the time being
+  REQUIRE(output.size() == 43191);
 }

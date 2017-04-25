@@ -3,23 +3,22 @@
 
 #include <vector>
 #include <boost/spirit/include/qi.hpp>
+
 #include "csv_row_t.hpp"
 
 namespace qi = boost::spirit::qi;
 
-using result_t = std::vector<csv_row_t>;
+using csv_rows_t = std::vector<csv_row_t>;
 
 template <typename Iterator>
-using rule_t = qi::rule<Iterator, result_t(), qi::space_type>;
+using rule_t = qi::rule<Iterator, csv_rows_t(), qi::space_type>;
 
 template <typename Iterator>
-struct csv_grammar_t : qi::grammar<Iterator, result_t(), qi::space_type>
+struct csv_grammar_t : qi::grammar<Iterator, csv_rows_t(), qi::space_type>
 {
-  using iter_t = Iterator;
-
-  using string_rule_t = qi::rule<iter_t, std::string(), qi::space_type>; 
-  using dbl_rule_t    = qi::rule<iter_t, double(),      qi::space_type>;
-  using int_rule_t    = qi::rule<iter_t, int(),         qi::space_type>;
+  using string_rule_t = qi::rule<Iterator, std::string(), qi::space_type>; 
+  using dbl_rule_t    = qi::rule<Iterator, double(),      qi::space_type>;
+  using int_rule_t    = qi::rule<Iterator, int(),         qi::space_type>;
 
   rule_t<Iterator> start;
 
@@ -45,17 +44,20 @@ struct csv_grammar_t : qi::grammar<Iterator, result_t(), qi::space_type>
     timezone  = qi::int_;
     dst       = qi::int_;
 
-    start = *(
-      '"' >> zip >> '"' >> ',' >>
-      '"' >> city >> '"' >> ',' >>
-      '"' >> state >> '"' >> ',' >>
-      '"' >> latitude >> '"' >> ',' >>
-      '"' >> longitude >> '"' >> ',' >>
-      '"' >> timezone >> '"' >> ',' >>
-      '"' >> dst >> '"');
+    start = 
+      -(
+        qi::lit("\"zip\"")       >> ',' >> "\"city\""      >> ',' >> "\"state\""
+        >> ',' >> "\"latitude\"" >> ',' >> "\"longitude\"" >> ',' >> "\"timezone\"" 
+        >> ',' >> "\"dst\"")
+      >> *(
+        '"' >> zip       >> '"' >> ',' >>
+        '"' >> city      >> '"' >> ',' >>
+        '"' >> state     >> '"' >> ',' >>
+        '"' >> latitude  >> '"' >> ',' >>
+        '"' >> longitude >> '"' >> ',' >>
+        '"' >> timezone  >> '"' >> ',' >>
+        '"' >> dst       >> '"');
   }
-
-   
 };
 
 #endif // CSV_GRAMMAR_HPP_

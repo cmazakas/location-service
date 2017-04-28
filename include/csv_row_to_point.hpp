@@ -5,9 +5,10 @@
 #include <boost/geometry/geometries/point.hpp> 
 #include "csv_row_t.hpp"
 
-using coordinate_type               = double;
+using coordinate_type   = double;
+using coordinate_system = boost::geometry::cs::cartesian;
+
 size_t const static dimension_count = 3;
-using coordinate_system             = boost::geometry::cs::cartesian;
 
 using point_t = boost::geometry::model::point<
   coordinate_type, dimension_count, coordinate_system

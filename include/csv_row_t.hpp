@@ -4,18 +4,29 @@
 #include <string>
 #include <boost/fusion/adapted/struct/adapt_struct.hpp>
 #include <boost/fusion/include/adapt_struct.hpp>
+#include <boost/serialization/strong_typedef.hpp>
+
+BOOST_STRONG_TYPEDEF(std::string, zip_t);
+BOOST_STRONG_TYPEDEF(std::string, city_t);
+BOOST_STRONG_TYPEDEF(std::string, state_t);
+
+BOOST_STRONG_TYPEDEF(double, latitude_t);
+BOOST_STRONG_TYPEDEF(double, longitude_t);
+
+BOOST_STRONG_TYPEDEF(int, timezone_t);
+BOOST_STRONG_TYPEDEF(int, dst_t);
 
 struct csv_row_t
 {
-  std::string zip;
-  std::string city;
-  std::string state;
+  zip_t   zip;
+  city_t  city;
+  state_t state;
 
-  double latitude;
-  double longitude;
+  latitude_t  latitude;
+  longitude_t longitude;
 
-  int timezone;
-  int dst;
+  timezone_t timezone;
+  dst_t      dst;
 };
 
 BOOST_FUSION_ADAPT_STRUCT(

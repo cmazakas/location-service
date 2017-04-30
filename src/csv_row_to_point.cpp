@@ -1,7 +1,12 @@
 #include <cmath>
 #include "csv_row_to_point.hpp"
 
-double const static earth_radius = 6'371'000; // meters
+//double const static earth_radius = 6'371'000; // meters
+
+namespace
+{
+  constexpr double const earth_radius = 6'371'000; // meters
+}
 
 auto csv_row_to_point(csv_row_t const& csv_row) -> point_t
 {

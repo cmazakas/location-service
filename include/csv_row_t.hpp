@@ -1,6 +1,7 @@
 #ifndef CSV_ROW_T_HPP_
 #define CSV_ROW_T_HPP_
 
+#include <string>
 #include <boost/fusion/adapted/struct/adapt_struct.hpp>
 #include <boost/fusion/include/adapt_struct.hpp>
 

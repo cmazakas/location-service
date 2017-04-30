@@ -21,7 +21,7 @@ include_directories(${CATCH_INCLUDE_DIR})
 
 
 include_directories(
-	./include
+    ./include
 
     ${Boost_INCLUDE_DIR}
 )
@@ -33,6 +33,7 @@ set(
     ./include/csv_row_t.hpp
     ./include/csv_parser.hpp
     ./include/csv_row_to_point.hpp
+    ./include/point_t.hpp
 )
 
 # create common library of source files to
@@ -42,6 +43,7 @@ set(
 
     ./src/csv_parser.cpp
     ./src/csv_row_to_point.cpp
+    ./src/point_t.cpp
  )
 
 

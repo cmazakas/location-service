@@ -3,6 +3,33 @@
 
 #include "csv_row_to_point.hpp"
 
+namespace
+{
+  constexpr double const pi = 3.14159265358979323846;
+
+  auto radian_to_degree(double const radians) -> double
+  {
+    return (180.0/pi) * radians;
+  }
+
+  struct coord_t
+  {
+    latitude_t  lat;
+    longitude_t lon;
+
+    auto operator==(coord_t const& other) const -> bool
+    {
+      return (lat == other.lat && other.lon == other.lon);
+    }
+  };
+
+  auto operator<<(std::ostream& os, coord_t const& coord) -> std::ostream&
+  {
+    os << "{ lat: " << coord.lat << ", lon: " << coord.lon << " }";
+    return os;
+  }
+}
+
 TEST_CASE("The csv row to point conversion routine")
 {
   SECTION("should be able to accurately convert to (x, y, z)")
@@ -18,6 +45,8 @@ TEST_CASE("The csv row to point conversion routine")
 
     auto const p = csv_row_to_point(csv_row);
 
+    std::cout << "Point is : " << p << '\n';
+
     auto const x = p.get<0>();
     auto const y = p.get<1>();
     auto const z = p.get<2>();
@@ -25,14 +54,16 @@ TEST_CASE("The csv row to point conversion routine")
     auto const r = sqrt(
       pow(x, 2) + pow(y, 2) + pow(z, 2));
 
-    auto const inclination = acos(z/r);
-    auto const azimuth     = atan(y/x);
+    auto const inclination = radian_to_degree(acos(z/r));
+    auto const azimuth     = radian_to_degree(atan2(y, x));
 
-    auto const latitude  = inclination - 90.0;
-    auto const longitude = azimuth - 180.0;
+    auto const lat = inclination - 90.0;
+    auto const lon = azimuth     - 180.0;
 
-    REQUIRE(r         == 6'371'000);
-    //REQUIRE(latitude  == 43.005895);
-    //REQUIRE(longitude == -71.013202);
+    auto const coord          = coord_t{latitude_t{lat},  longitude_t{lon}};
+    auto const expected_coord = coord_t{latitude_t{43.005895}, longitude_t{-71.013202}};
+
+    REQUIRE(r == 6'371'000);
+    REQUIRE(coord == expected_coord);
   }
 }

@@ -34,6 +34,7 @@ set(
     ./include/csv_parser.hpp
     ./include/csv_row_to_point.hpp
     ./include/point_t.hpp
+    ./include/equal.hpp
 )
 
 # create common library of source files to
@@ -44,14 +45,15 @@ set(
     ./src/csv_parser.cpp
     ./src/csv_row_to_point.cpp
     ./src/point_t.cpp
+    ./src/equal.cpp
  )
 
 
 set(
     TESTS
 
-    ./test/csv_grammar_tests.cpp
-    ./test/csv_parser_tests.cpp
+    #./test/csv_grammar_tests.cpp
+    #./test/csv_parser_tests.cpp
     ./test/csv_row_to_point_tests.cpp
 )
 

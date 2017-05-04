@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include "csv_row_to_point.hpp"
+#include "equal.hpp"
 
 namespace
 {
@@ -19,7 +20,7 @@ namespace
 
     auto operator==(coord_t const& other) const -> bool
     {
-      return (lat == other.lat && other.lon == other.lon);
+      return eq(lat, other.lat) && eq(lon, other.lon);
     }
   };
 
@@ -44,8 +45,6 @@ TEST_CASE("The csv row to point conversion routine")
       dst_t{1}};
 
     auto const p = csv_row_to_point(csv_row);
-
-    std::cout << "Point is : " << p << '\n';
 
     auto const x = p.get<0>();
     auto const y = p.get<1>();

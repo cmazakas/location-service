@@ -1,14 +1,10 @@
 #ifndef CSV_GRAMMAR_HPP_
 #define CSV_GRAMMAR_HPP_
 
-#include <vector>
 #include <boost/spirit/include/qi.hpp>
-
 #include "csv_row_t.hpp"
 
 namespace qi = boost::spirit::qi;
-
-using csv_rows_t = std::vector<csv_row_t>;
 
 template <typename Iterator>
 using rule_t = qi::rule<Iterator, csv_rows_t(), qi::space_type>;

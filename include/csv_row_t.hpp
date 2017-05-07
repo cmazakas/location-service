@@ -2,6 +2,8 @@
 #define CSV_ROW_T_HPP_
 
 #include <string>
+#include <vector>
+
 #include <boost/fusion/adapted/struct/adapt_struct.hpp>
 #include <boost/fusion/include/adapt_struct.hpp>
 #include <boost/serialization/strong_typedef.hpp>
@@ -40,5 +42,8 @@ BOOST_FUSION_ADAPT_STRUCT(
 
   (decltype(csv_row_t::timezone), timezone)
   (decltype(csv_row_t::dst),      dst))
+
+
+using csv_rows_t = std::vector<csv_row_t>;
 
 #endif // CSV_ROW_T_HPP_

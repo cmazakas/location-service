@@ -35,6 +35,7 @@ set(
     ./include/csv_row_to_point.hpp
     ./include/point_t.hpp
     ./include/equal.hpp
+    ./include/csv_to_rtree.hpp
 )
 
 # create common library of source files to
@@ -46,6 +47,7 @@ set(
     ./src/csv_row_to_point.cpp
     ./src/point_t.cpp
     ./src/equal.cpp
+    ./src/csv_to_rtree.cpp
  )
 
 
@@ -55,6 +57,7 @@ set(
     #./test/csv_grammar_tests.cpp
     #./test/csv_parser_tests.cpp
     ./test/csv_row_to_point_tests.cpp
+    ./test/csv_to_rtree_tests.cpp
 )
 
 add_library(locservice STATIC ${SOURCES})

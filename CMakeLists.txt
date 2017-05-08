@@ -36,6 +36,7 @@ set(
     ./include/point_t.hpp
     ./include/equal.hpp
     ./include/csv_to_rtree.hpp
+    ./include/make_server.hpp
 )
 
 # create common library of source files to
@@ -48,6 +49,7 @@ set(
     ./src/point_t.cpp
     ./src/equal.cpp
     ./src/csv_to_rtree.cpp
+    ./src/make_server.cpp
  )
 
 

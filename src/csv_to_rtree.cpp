@@ -5,7 +5,7 @@
 
 namespace
 {
-  auto csv_row_to_rtree_value_type(csv_row_t const& csv_row) -> std::pair<point_t, csv_row_t>
+  auto csv_row_to_rtree_value_type(csv_row_t const& csv_row) -> typename rtree_t::value_type
   {
     return {csv_row_to_point(csv_row), csv_row};
   }

@@ -36,7 +36,7 @@ set(
     ./include/point_t.hpp
     ./include/equal.hpp
     ./include/csv_to_rtree.hpp
-    ./include/make_server.hpp
+    ./include/location_server.hpp
 )
 
 # create common library of source files to
@@ -49,7 +49,6 @@ set(
     ./src/point_t.cpp
     ./src/equal.cpp
     ./src/csv_to_rtree.cpp
-    ./src/make_server.cpp
  )
 
 
@@ -60,6 +59,7 @@ set(
     #./test/csv_parser_tests.cpp
     ./test/csv_row_to_point_tests.cpp
     ./test/csv_to_rtree_tests.cpp
+    ./test/location_server_tests.cpp
 )
 
 add_library(locservice STATIC ${SOURCES})

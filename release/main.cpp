@@ -1,7 +1,9 @@
-#include <iostream>
+#include <string>
+#include "location_server.hpp"
 
 int main(void)
 {
-  std::cout << "Hello, world!\n";
-  return 0;
+  location_server_t server;
+
+  
 }

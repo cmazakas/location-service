@@ -37,6 +37,8 @@ set(
     ./include/equal.hpp
     ./include/csv_to_rtree.hpp
     ./include/location_server.hpp
+    ./include/csv_rows_to_zip_point_map.hpp
+    ./include/csv_rows_from_range.hpp
 )
 
 # create common library of source files to
@@ -49,6 +51,8 @@ set(
     ./src/point_t.cpp
     ./src/equal.cpp
     ./src/csv_to_rtree.cpp
+    ./src/location_server.cpp
+    ./src/csv_rows_to_zip_point_map.cpp
  )
 
 
@@ -60,6 +64,7 @@ set(
     ./test/csv_row_to_point_tests.cpp
     ./test/csv_to_rtree_tests.cpp
     ./test/location_server_tests.cpp
+    ./test/csv_rows_to_zip_point_map_tests.cpp
 )
 
 add_library(locservice STATIC ${SOURCES})
@@ -86,4 +91,7 @@ install(
 )
 
 enable_testing()
-add_test(NAME lsvc_tests COMMAND location_service_tests)
+add_test(
+    NAME lsvc_tests 
+    COMMAND location_service_tests
+    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})

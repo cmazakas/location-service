@@ -8,7 +8,7 @@
 using coordinate_type   = double;
 using coordinate_system = boost::geometry::cs::cartesian;
 
-size_t const static dimension_count = 3;
+constexpr size_t dimension_count = 3;
 
 using point_t = boost::geometry::model::point<
   coordinate_type, dimension_count, coordinate_system

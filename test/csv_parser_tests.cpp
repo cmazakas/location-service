@@ -2,6 +2,7 @@
 #include <string>
 
 #include "csv_parser.hpp"
+#include "find_zip_data.hpp"
 
 TEST_CASE("The CSV parser")
 {
@@ -17,8 +18,8 @@ TEST_CASE("The CSV parser")
 
   SECTION("should be able to parse and read in our csv file")
   {
-    auto const filepath = std::string{"C:\\Users\\christian\\clc\\location-service\\zip_data\\zipcode.csv"};
-
+    auto const filepath = csv_file_path.string();
+    std::cout << filepath << '\n';
     auto const csv_rows = get_csv_location_data(filepath);
 
     REQUIRE(csv_rows.size() == 43191);

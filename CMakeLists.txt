@@ -39,6 +39,7 @@ set(
     ./include/location_server.hpp
     ./include/csv_rows_to_zip_point_map.hpp
     ./include/csv_rows_from_range.hpp
+    ./include/find_zip_data.hpp
 )
 
 # create common library of source files to
@@ -53,14 +54,15 @@ set(
     ./src/csv_to_rtree.cpp
     ./src/location_server.cpp
     ./src/csv_rows_to_zip_point_map.cpp
+    ./src/find_zip_data.cpp
  )
 
 
 set(
     TESTS
 
-    #./test/csv_grammar_tests.cpp
-    #./test/csv_parser_tests.cpp
+    ./test/csv_grammar_tests.cpp
+    ./test/csv_parser_tests.cpp
     ./test/csv_row_to_point_tests.cpp
     ./test/csv_to_rtree_tests.cpp
     ./test/location_server_tests.cpp

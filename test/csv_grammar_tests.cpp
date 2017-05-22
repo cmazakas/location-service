@@ -4,6 +4,7 @@
 #include <iterator>
 
 #include "csv_grammar.hpp"
+#include "find_zip_data.hpp"
 
 namespace qi = boost::spirit::qi;
 
@@ -11,7 +12,7 @@ TEST_CASE("The csv parsing grammar")
 {
   using iter_t = boost::spirit::istream_iterator;
   
-  std::ifstream ifs{"C:\\Users\\christian\\clc\\location-service\\zip_data\\zipcode.csv"};
+  std::ifstream ifs{csv_file_path};
   ifs >> std::noskipws;
 
   REQUIRE(ifs.is_open());

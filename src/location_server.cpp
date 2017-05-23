@@ -8,6 +8,7 @@ namespace
   using http_request_t  = web::http::http_request;
   using http_response_t = web::http::http_response;
   using uri_t           = web::uri;
+  using string_t        = utility::string_t;
 
   namespace bgi = boost::geometry::index;
 }
@@ -16,11 +17,11 @@ location_server_t::location_server_t(void)
 {
   auto const csv_rows = get_csv_location_data(csv_file_path.string());
 
-  rtree_ = csv_rows_to_rtree(csv_rows);
+  rtree_         = csv_rows_to_rtree(csv_rows);
+  zip_point_map_ = csv_rows_to_zip_point_map(csv_rows);
 
   http_listener_ = http_listener_t{
-    uri_t{
-      utility::string_t{U("http://localhost:3000")}},
+    uri_t{string_t{U("http://localhost:3000")}},
     config_t{}};
 
   // we only need one route handler for this micro-service!
@@ -33,8 +34,8 @@ location_server_t::location_server_t(void)
 
     auto const query_params = uri_t::split_query(relative_uri.to_string());
 
-    auto const iter_to_zip    = query_params.find(utility::string_t{U("zip")});
-    auto const iter_to_radius = query_params.find(utility::string_t{U("radius")});
+    auto const iter_to_zip    = query_params.find(string_t{U("zip")});
+    auto const iter_to_radius = query_params.find(string_t{U("radius")});
 
     if (iter_to_zip == query_params.end() || iter_to_radius == query_params.end()) {
       auto http_response = http_response_t{web::http::status_code{400}};
@@ -46,7 +47,7 @@ location_server_t::location_server_t(void)
 
     } else {
 
-      auto const zip    = (*iter_to_zip).second;
+      auto const zip = (*iter_to_zip).second;
 
       // TODO: add exception handling to this because it throws :P
       auto const radius = stod((*iter_to_radius).second);
@@ -54,7 +55,7 @@ location_server_t::location_server_t(void)
       auto closest_csv_rows = std::vector<typename rtree_t::value_type>{};
       closest_csv_rows.reserve(128);
 
-      rtree_.query(bgi::nearest(radius, 30), std::back_inserter(closest_csv_rows));
+      rtree_.query(bgi::nearest(point_t{}, 30), std::back_inserter(closest_csv_rows));
 
       auto http_response = http_response_t{web::http::status_code{200}};
       http_response.set_body(U("asasdfasdfasdf"));

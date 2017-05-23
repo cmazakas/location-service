@@ -4,6 +4,8 @@
 #include <functional>
 
 #include "csv_to_rtree.hpp"
+#include "csv_rows_to_zip_point_map.hpp"
+
 #include <cpprest/http_listener.h>
 #include <cpprest/asyncrt_utils.h>
 
@@ -15,6 +17,7 @@ private:
  
   rtree_t         rtree_;
   http_listener_t http_listener_;
+  zip_point_map_t zip_point_map_;
 
 public:
 

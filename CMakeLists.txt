@@ -9,22 +9,13 @@ find_package(Boost REQUIRED)
 
 # Find our cpprestsdk libs
 # Finding any arbitrary header seems to do
-find_path(CPPRESTSDK_INCLUDE_DIR cpprest/http_listener.h)
-find_library(CPPRESTSDK_LIBRARY cpprest_2_9)
+find_path(CPPREST_INCLUDE_DIR cpprest/http_listener.h)
+find_library(CPPREST_LIBRARY cpprest_2_9)
 
-include_directories(${CPPRESTSDK_INCLUDE_DIR})
-link_libraries(${CPPRESTSDK_LIBRARY})
+
 
 # Catch dependency for testing
 find_path(CATCH_INCLUDE_DIR catch.hpp)
-include_directories(${CATCH_INCLUDE_DIR})
-
-
-include_directories(
-    ./include
-
-    ${Boost_INCLUDE_DIR}
-)
 
 set(
     HEADERS
@@ -40,6 +31,7 @@ set(
     ./include/csv_rows_to_zip_point_map.hpp
     ./include/csv_rows_from_range.hpp
     ./include/find_zip_data.hpp
+    ./include/handle_http_req.hpp
 )
 
 # create common library of source files to
@@ -55,6 +47,7 @@ set(
     ./src/location_server.cpp
     ./src/csv_rows_to_zip_point_map.cpp
     ./src/find_zip_data.cpp
+    ./src/handle_http_req.cpp
  )
 
 
@@ -71,10 +64,33 @@ set(
 
 add_library(locservice STATIC ${SOURCES})
 
-link_libraries(locservice)
+target_include_directories(
+    locservice 
+
+    PUBLIC
+    ./include
+    ${Boost_INCLUDE_DIR}
+    ${CPPREST_INCLUDE_DIR}
+)
+
+target_link_libraries(
+    locservice
+
+    ${CPPREST_LIBRARY}
+)
 
 # generate release binary
-add_executable(location_service ./release/main.cpp ${HEADERS})
+add_executable(
+    location_service 
+    ./release/main.cpp 
+    ${HEADERS}
+)
+
+target_link_libraries(
+    location_service
+
+    locservice
+)
 
 # generate testing binary
 add_executable(
@@ -85,6 +101,14 @@ add_executable(
     ./debug/main.cpp
 
     ${TESTS}
+)
+
+target_include_directories(location_service_tests PRIVATE ${CATCH_INCLUDE_DIR})
+target_link_libraries(
+    location_service_tests
+
+    locservice
+    ${CPPREST_LIBRARY}
 )
 
 install(

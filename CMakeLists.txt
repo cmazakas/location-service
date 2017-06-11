@@ -1,22 +1,25 @@
+# this is the current default version Visual Studio is using :P
 cmake_minimum_required(VERSION 3.6)
 
 project(location_service)
-
 set(CMAKE_CXX_STANDARD 14)
 
 # Boost dependency
 find_package(Boost REQUIRED)
 
 # Find our cpprestsdk libs
-# Finding any arbitrary header seems to do
+# Finding any arbitrary header will do until more robust find modules are written
 find_path(CPPREST_INCLUDE_DIR cpprest/http_listener.h)
 find_library(CPPREST_LIBRARY cpprest_2_9)
 
-
-
 # Catch dependency for testing
+# Find the Catch header then create an INTERFACE
+# library from it which we can then later include
 find_path(CATCH_INCLUDE_DIR catch.hpp)
+add_library(CATCH_LIBRARY INTERFACE)
+target_include_directories(CATCH_LIBRARY INTERFACE ${CATCH_INCLUDE_DIR})
 
+# set all the headers for the project
 set(
     HEADERS
 
@@ -50,21 +53,11 @@ set(
     ./src/handle_http_req.cpp
  )
 
+ add_library(
+    locservice 
+    STATIC ${SOURCES})
 
-set(
-    TESTS
-
-    ./test/csv_grammar_tests.cpp
-    ./test/csv_parser_tests.cpp
-    ./test/csv_row_to_point_tests.cpp
-    ./test/csv_to_rtree_tests.cpp
-    ./test/location_server_tests.cpp
-    ./test/csv_rows_to_zip_point_map_tests.cpp
-)
-
-add_library(locservice STATIC ${SOURCES})
-
-target_include_directories(
+ target_include_directories(
     locservice 
 
     PUBLIC
@@ -79,9 +72,22 @@ target_link_libraries(
     ${CPPREST_LIBRARY}
 )
 
+ # these are all of our current testing files
+set(
+    TESTS
+
+    ./test/csv_grammar_tests.cpp
+    ./test/csv_parser_tests.cpp
+    ./test/csv_row_to_point_tests.cpp
+    ./test/csv_to_rtree_tests.cpp
+    ./test/location_server_tests.cpp
+    ./test/csv_rows_to_zip_point_map_tests.cpp
+)
+
 # generate release binary
 add_executable(
-    location_service 
+    location_service
+
     ./release/main.cpp 
     ${HEADERS}
 )
@@ -96,26 +102,27 @@ target_link_libraries(
 add_executable(
     location_service_tests 
 	
-    ${HEADERS}
-
     ./debug/main.cpp
-
+    ${HEADERS}
     ${TESTS}
 )
 
-target_include_directories(location_service_tests PRIVATE ${CATCH_INCLUDE_DIR})
 target_link_libraries(
     location_service_tests
 
     locservice
-    ${CPPREST_LIBRARY}
+    ${CATCH_LIBRARY}
 )
 
+# create a simple install rule (probably needs to be ironed out)
 install(
     TARGETS location_service location_service_tests
     DESTINATION bin
 )
 
+# add some CTest functionality as well
+# unfortunately, only the Catch binary is run so as far as
+# CTest knows, only one test is actually run
 enable_testing()
 add_test(
     NAME lsvc_tests 

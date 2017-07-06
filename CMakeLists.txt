@@ -123,8 +123,10 @@ install(
 # add some CTest functionality as well
 # unfortunately, only the Catch binary is run so as far as
 # CTest knows, only one test is actually run
+# see: https://github.com/philsquared/Catch/blob/master/contrib/ParseAndAddCatchTests.cmake
+
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake.modules/")
+
 enable_testing()
-add_test(
-    NAME lsvc_tests 
-    COMMAND location_service_tests
-    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+include(ParseAndAddCatchTests)
+ParseAndAddCatchTests(location_service_tests)

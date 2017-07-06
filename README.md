@@ -69,3 +69,22 @@ Once you've build the service, it's simple to use it!
 Simply query the service with `/?zip=...&radius=...` and it'll retrieve all cities within the supplied radius (radius is in meters).\
 
 Type `exit` into the console to gracefully close the server.
+
+## The Algorithm
+
+Unfortunately, geolocation is a tricky problem.
+
+The algorithm that we use makes a few assumptions.
+
+First, we're limited to our dataset. It's somewhat difficult to get a hold of this kind of data for free so we
+use a random CSV that may be outdated.
+
+Nevertheless, we parse it and then convert longitude-latitude to Cartesian space by approximating the Earth as
+a perfect sphere. We don't need a more robust model as we're interested in the relative positions between zip
+codes and not the exact distances between them.
+
+Using this, we create a simple rtree which maps points to the data of each city (name, zip, state, etc.).
+
+We use Boost.Spirit to parse the CSV and generate our point data. We use Boost.Geometry to create the rtree
+and the required queries. Boost.Variant is used in conjunction with the cpprestsdk to handle the HTTP requests
+from clients.
